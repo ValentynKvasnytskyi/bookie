@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: bookie-app
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+      - '24678:24678'
+    volumes:
+      - ./:/app
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    working_dir: /app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo-bookie
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+    working_dir: /app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+#  nginx:
+#    container_name: nginx-bookie
+#    image: nginx:latest
+#    volumes:
+#      - ./nginx/default.conf:/etc/nginx/nginx.conf
+#    ports:
+#      - "80:80"
+#    restart: unless-stopped
+#    networks:
+#      default:
+#        aliases:
+#          - bookie.local
+#    working_dir: /app
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+
+volumes:
+  mongo-data:

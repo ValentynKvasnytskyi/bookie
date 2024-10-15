@@ -1,0 +1,66 @@
+import globals from "globals";
+import path from "node:path";
+import url from "node:url";
+import tseslint from "typescript-eslint";
+import js from "@eslint/js";
+import { FlatCompat } from "@eslint/eslintrc";
+
+export default [
+  // {
+  //   ignores: ["**/webpack.config.js", "**/*.d.ts", "**/assets/js/tests"],
+  // },
+  {
+    languageOptions: {
+      globals: globals.browser
+    }
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...new FlatCompat({
+    baseDirectory: path.dirname(url.fileURLToPath(import.meta.url)),
+    recommendedConfig: js.configs.recommended,
+  }).config({
+    root: true,
+    env: {
+      node: true,
+    },
+    extends: [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended",
+      "@vue/prettier",
+      "@vue/typescript/recommended"
+    ],
+
+    parserOptions: {
+      ecmaVersion: 2020,
+      parser: "@typescript-eslint/parser"
+    },
+    plugins: [
+      "prettier",
+      "@typescript-eslint"
+    ],
+    rules: {
+      quotes: ["warn", "double"],
+      indent: ["error", 2],
+      "prettier/prettier": [
+        "error",
+        {
+          endOfLine: "auto",
+          printWidth: 120,
+          tabWidth: 2
+        }
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-namespace": "off",
+      "@typescript-eslint/ts-ignore": "off"
+    },
+    // overrides: [
+    //   {
+    //     files: ["**/assets/js/tests"],
+    //     env: {
+    //       jest: true,
+    //     },
+    //   },
+    // ],
+  }),
+];

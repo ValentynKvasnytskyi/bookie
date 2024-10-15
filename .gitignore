@@ -1,0 +1,10 @@
+/dist
+/logs
+
+.yarn
+
+node_modules
+
+.env.local
+
+readme
