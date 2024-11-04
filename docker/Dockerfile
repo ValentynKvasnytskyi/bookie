@@ -3,13 +3,14 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY package*.json ./
+COPY yarn.lock ./
 
 RUN corepack enable
 RUN yarn set version stable
 RUN yarn config set nodeLinker node-modules
 RUN yarn install
 
-COPY .. .
+COPY . .
 
 EXPOSE 3000
 

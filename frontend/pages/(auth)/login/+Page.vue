@@ -28,6 +28,8 @@ async function login() {
 
   if (user?.company?.slug) {
     await navigate(getLocalizedUrl(`/${user.company.slug}/admin`, pageContext.value.locale));
+  } else {
+    await navigate(getLocalizedUrl(`/register`, pageContext.value.locale));
   }
 }
 </script>
