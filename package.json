@@ -6,11 +6,8 @@
   "scripts": {
     "dev": "nodemon --watch server --exec node --loader ts-node/esm ./server/index.ts",
     "build": "vite build",
-    "build:vite": "vite build && tsup server/index.ts --out-dir dist/server --format esm",
     "server": "node --loader ts-node/esm ./server/index.ts",
-    "server:node": "node dist/server/index.js",
-    "server:prod": "npm run build && cross-env NODE_ENV=production npm run server",
-    "server:prod:test": "cross-env NODE_ENV=production npm run build:vite && npm run server"
+    "server:prod": "npm run build && cross-env NODE_ENV=production npm run server"
   },
   "dependencies": {
     "@coreui/coreui": "^5.1.2",
