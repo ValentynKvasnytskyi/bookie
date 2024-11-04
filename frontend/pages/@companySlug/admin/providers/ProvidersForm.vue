@@ -6,7 +6,7 @@ import { useTranslations } from "../../../../localization/useTranslations";
 import { navigate } from "vike/client/router";
 import Card from "../../../../components/Card.vue";
 import AdminSavedToast from "../../../../components/admin/AdminSavedToast.vue";
-import { CButton, CFormCheck, CFormInput, CFormTextarea } from "@coreui/vue";
+import { CButton, CFormCheck, CFormInput, CFormTextarea, CFormLabel } from "@coreui/vue";
 import { ProviderEntity } from "../../../../../server/api/entities/providers/providers.types";
 import { ApiService } from "../../../../services/ApiService";
 import Multiselect from "vue-multiselect/src/Multiselect.vue";
@@ -105,6 +105,7 @@ async function updateProviderSchedule(schedule: ScheduleEntity) {
       <CFormInput v-model="provider.email" :label="t('form.label.email')" class="mb-4" />
       <CFormInput v-model="provider.phoneNumber" :label="t('form.label.phoneNumber')" class="mb-4" />
       <CFormCheck v-model="provider.isActive" :label="t('form.label.isActive')" id="isActiveProvider" class="mb-4" />
+      <CFormLabel>{{ t("form.label.service") }}</CFormLabel>
       <Multiselect
         v-model="selectedServices"
         :options="servicesOptions"

@@ -1,12 +1,14 @@
 import { PageContext } from "vike/types";
 import { ExtendedContext } from "../../../../../renderer/usePageContext";
-import CategoriesController from "../../../../../server/api/entities/categories/categories.controller";
+import { Category } from "../../../../../server/api/entities/categories/categories.types";
+import EntityRepository from "../../../../services/repository/EntityRepository";
 
-const categoriesController = new CategoriesController();
+const categoriesRepository = new EntityRepository<Category>("Categories");
+
 export async function data(pageContext: PageContext & ExtendedContext) {
   const { page, name } = pageContext.query;
   const { companySlug } = pageContext.routeParams;
-  const { data, totalCount } = await categoriesController.getAllItemsSSR({
+  const { data, totalCount } = await categoriesRepository.getAll({
     page,
     name,
     companySlug,

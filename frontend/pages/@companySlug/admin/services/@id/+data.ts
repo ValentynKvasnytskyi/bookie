@@ -1,13 +1,15 @@
 import { PageContext } from "vike/types";
-import ServicesController from "../../../../../../server/api/entities/services/services.controller.ts";
-import CategoriesController from "../../../../../../server/api/entities/categories/categories.controller.ts";
+import EntityRepository from "../../../../../services/repository/EntityRepository";
+import { Category } from "../../../../../../server/api/entities/categories/categories.types";
+import { Service } from "../../../../../../server/api/entities/services/services.types";
 
-const servicesController = new ServicesController();
-const categoriesController = new CategoriesController();
+const categoriesRepository = new EntityRepository<Category>("Categories");
+const servicesRepository = new EntityRepository<Service>("Services");
+
 export async function data(pageContext: PageContext) {
   const { id, companySlug } = pageContext.routeParams;
-  const service = await servicesController.getItemByIdSSR(id);
-  const categories = await categoriesController.getAllItemsSSR({ companySlug, pagination: "false" });
+  const service = await servicesRepository.getById(id);
+  const categories = await categoriesRepository.getAll({ companySlug, pagination: "false" });
 
   return {
     service,

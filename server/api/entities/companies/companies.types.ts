@@ -7,7 +7,7 @@ export interface CompanyEntity {
   name: string;
   description: string;
   phoneNumber: string;
-  image: string;
+  image?: string;
   email: string;
   schedule?: ScheduleEntity | null;
   slug: string;

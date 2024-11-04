@@ -1,10 +1,12 @@
 import { PageContext } from "vike/types";
-import BookingsController from "../../../../../../server/api/entities/bookings/bookings.controller";
+import EntityRepository from "../../../../../services/repository/EntityRepository";
+import { Booking } from "../../../../../../server/api/entities/bookings/bookings.types";
 
-const bookingsController = new BookingsController();
+const bookingsRepository = new EntityRepository<Booking>("Bookings", ["client", "service", "provider"]);
+
 export async function data(pageContext: PageContext) {
   const { id } = pageContext.routeParams;
-  const booking = await bookingsController.getItemByIdSSR(id, ["client", "services", "provider"]);
+  const booking = await bookingsRepository.getById(id);
 
   return {
     booking,

@@ -2,19 +2,19 @@
 import { ref } from "vue";
 import { usePageContext } from "../../../../renderer/usePageContext";
 import { env } from "../../../../config/env";
-import ButtonGroup from "primevue/buttongroup";
-import Button from "primevue/button";
-import InputText from "primevue/inputtext";
-import Password from "primevue/password";
-import Card from "primevue/card";
+import { CCard, CCardTitle, CCardBody, CButton, CFormInput, CRow, CCol, CCardHeader } from "@coreui/vue";
+import { navigate } from "vike/client/router";
+import { useUrlHelper } from "../../../composables/useUrlHelper.ts";
+import { useTranslations } from "../../../localization/useTranslations.ts";
+import LangSwitcher from "../../../components/LangSwitcher.vue";
 // refs
 const email = ref("");
 const password = ref("");
-const { SUPPORTED_LOCALES, DEFAULT_LOCALE } = env;
 const pageContext = usePageContext();
-const { locale, urlLogical } = pageContext.value;
+const { getLocalizedUrl, getLocalizedIndexUrl } = useUrlHelper();
+const { t } = useTranslations(pageContext);
 async function login() {
-  const log = await fetch("/auth/login", {
+  const response = await fetch("/auth/login", {
     method: "POST",
     body: JSON.stringify({
       email: email.value,
@@ -24,54 +24,45 @@ async function login() {
       "Content-type": "application/json",
     },
   });
-  console.log(await log.json());
+  const user = await response.json();
+
+  if (user?.company?.slug) {
+    await navigate(getLocalizedUrl(`/${user.company.slug}/admin`, pageContext.value.locale));
+  }
 }
-// async function logout() {
-//   const log = await fetch("/auth/logout", {
-//     method: "POST",
-//     body: JSON.stringify({
-//       email: email.value,
-//       password: pass.value,
-//     }),
-//     headers: {
-//       "Content-type": "application/json",
-//     },
-//   });
-//   console.log(await log.json());
-// }
 </script>
 <template>
-  <Card class="w-1/3 m-auto" role="login">
-    <template #title>
-      <div class="flex justify-between">
-        <h1 class="text-2xl">Login</h1>
-        <ButtonGroup>
-          <a
-            v-for="lang in SUPPORTED_LOCALES"
-            :key="lang"
-            :href="lang === DEFAULT_LOCALE ? '/login' : '/' + lang + urlLogical"
-            class="p-button p-component p-button-link p-button-sm"
-            :class="{ 'pointer-events-none': pageContext.locale === lang }"
-          >
-            {{ lang }}
-          </a>
-        </ButtonGroup>
-      </div>
-    </template>
-    <template #content>
+  <CCard class="md:w-1/2 sm:w-2/3 m-auto">
+    <CCardHeader class="flex align-items-center justify-between">
+      <CCardTitle class="mb-0 text-2xl font-semibold">
+        {{ t("auth.title.login") }}
+      </CCardTitle>
+      <LangSwitcher />
+    </CCardHeader>
+    <CCardBody class="pt-2">
       <div class="flex flex-col gap-4 mt-2">
-        <InputText v-model="email" fluid placeholder="Enter email" />
-
-        <Password v-model="password" fluid :feedback="false" toggleMask placeholder="Enter password" />
-
-        <Button label="Login" @click="login" />
         <div class="flex flex-col gap-2">
+          <CRow class="pb-4 border-b gap-y-4">
+            <CCol sm="12">
+              <CFormInput v-model="email" :placeholder="t('auth.placeholder.email')" />
+            </CCol>
+            <CCol sm="12">
+              <CFormInput type="password" v-model="password" :placeholder="t('auth.placeholder.password')" />
+            </CCol>
+          </CRow>
+
+          <CButton color="success" class="text-white" @click="login">{{ t("auth.button.login") }}</CButton>
           <div class="text-xs text-center">
-            New at bookie?
-            <a href="/register" class="text-sky-500">Register</a>
+            {{ t("auth.text.login") }}
+            <a :href="getLocalizedUrl('/register', pageContext.locale)" class="text-sky-500">{{
+              t("auth.title.register")
+            }}</a>
+          </div>
+          <div class="text-xs text-center">
+            <a :href="getLocalizedIndexUrl(pageContext.locale)" class="text-sky-500">{{ t("auth.title.main") }}</a>
           </div>
         </div>
       </div>
-    </template>
-  </Card>
+    </CCardBody>
+  </CCard>
 </template>

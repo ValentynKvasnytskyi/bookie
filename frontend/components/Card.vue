@@ -4,7 +4,7 @@ withDefaults(defineProps<{ showHeader?: boolean }>(), {
 });
 </script>
 <template>
-  <div class="max-w-full m-3 rounded overflow-hidden shadow-lg bg-white text-sm">
+  <div class="max-w-full m-3 rounded shadow-lg bg-white text-sm">
     <div v-if="showHeader" class="px-4 py-2 flex justify-between items-center bg-gray-50 border-b">
       <slot name="header"></slot>
     </div>

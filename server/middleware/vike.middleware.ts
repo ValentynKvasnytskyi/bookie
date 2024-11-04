@@ -12,7 +12,6 @@ export async function vikeMiddleware(req: AuthenticatedRequest, res: Response, n
     query: req.query,
     translations,
   };
-
   const pageContext = await renderPage(pageContextInit);
   if (pageContext.errorWhileRendering) {
     // Install error tracking here, see https://vike.dev/errors

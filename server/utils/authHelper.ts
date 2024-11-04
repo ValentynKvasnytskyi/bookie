@@ -4,7 +4,7 @@ import { env } from "../../config/env.ts";
 import { Response } from "express";
 
 export const generateTokens = (userId: string) => {
-  const accessToken = jwt.sign({ userId }, env.JWT_SECRET!, { expiresIn: "15m" });
+  const accessToken = jwt.sign({ userId }, env.JWT_SECRET!, { expiresIn: "1m" });
   const refreshToken = crypto.randomBytes(40).toString("hex");
   return { accessToken, refreshToken };
 };

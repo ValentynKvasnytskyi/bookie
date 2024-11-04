@@ -1,10 +1,12 @@
 import { PageContext } from "vike/types";
-import CategoriesController from "../../../../../../server/api/entities/categories/categories.controller";
+import EntityRepository from "../../../../../services/repository/EntityRepository";
+import { Category } from "../../../../../../server/api/entities/categories/categories.types";
 
-const categoriesController = new CategoriesController();
+const categoriesRepository = new EntityRepository<Category>("Categories");
+
 export async function data(pageContext: PageContext) {
   const { companySlug } = pageContext.routeParams;
-  const categories = await categoriesController.getAllItemsSSR({ companySlug, pagination: "false" });
+  const categories = await categoriesRepository.getAll({ companySlug, pagination: "false" });
 
   return {
     categories: categories.data,

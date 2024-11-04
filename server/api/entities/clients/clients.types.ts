@@ -7,7 +7,7 @@ export interface ClientEntity {
   email: string;
   phoneNumber: string;
   isBlocked: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   companySlug: string;
 }

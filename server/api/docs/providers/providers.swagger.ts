@@ -6,43 +6,43 @@ export const ProviderSwaggerSchema = {
         properties: {
           name: {
             type: "string",
-            description: "Name of the provider",
+            description: "Name of the providerss",
           },
           companySlug: {
             type: "string",
-            description: "Slug of the company the provider belongs to",
+            description: "Slug of the company the providerss belongs to",
           },
           description: {
             type: "string",
-            description: "Description of the provider",
+            description: "Description of the providerss",
           },
           phoneNumber: {
             type: "string",
-            description: "Phone number of the provider",
+            description: "Phone number of the providerss",
           },
           email: {
             type: "string",
-            description: "Email address of the provider",
+            description: "Email address of the providerss",
           },
           isActive: {
             type: "boolean",
-            description: "Whether the provider is active or not",
+            description: "Whether the providerss is active or not",
           },
           image: {
             type: "string",
-            description: "URL of the provider's image",
+            description: "URL of the providerss's image",
           },
           services: {
             type: "array",
             items: {
               type: "string",
             },
-            description: "Array of service IDs associated with the provider",
+            description: "Array of service IDs associated with the providerss",
             nullable: true,
           },
           schedule: {
             type: "string",
-            description: "ID of the schedules associated with the provider",
+            description: "ID of the schedules associated with the providerss",
             nullable: true,
           },
         },

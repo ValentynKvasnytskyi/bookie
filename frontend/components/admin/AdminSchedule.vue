@@ -9,8 +9,8 @@ import { capitalize } from "vue";
 import AdminYesNoBadge from "./AdminYesNoBadge.vue";
 
 interface Props {
-  companySchedule: ScheduleEntity | null;
-  entitySchedule: ScheduleEntity | null;
+  companySchedule: ScheduleEntity | null | undefined;
+  entitySchedule: ScheduleEntity | null | undefined;
   showCompanyCheckbox?: boolean;
   editCompanySchedule?: boolean;
 }
@@ -39,7 +39,7 @@ const useCompanySchedule = ref(false);
 const initialUseCompanySchedule = ref(false);
 const showScheduleModal = ref(false);
 const schedule: Ref<ScheduleEntity | null> = ref(
-  props.entitySchedule ? JSON.parse(JSON.stringify(props.entitySchedule)) : null,
+  props.entitySchedule ? JSON.parse(JSON.stringify(props.entitySchedule)) : getNewSchedule(),
 );
 const initialSchedule = JSON.parse(JSON.stringify(schedule.value));
 
@@ -203,11 +203,13 @@ async function saveSchedule() {
 }
 
 // hooks
-onMounted(() => {
+onMounted(async () => {
   if (schedule.value?._id === props.companySchedule?._id) {
     useCompanySchedule.value = true;
     initialUseCompanySchedule.value = true;
-    schedule.value = JSON.parse(JSON.stringify(props.companySchedule));
+    schedule.value = props.companySchedule ? JSON.parse(JSON.stringify(props.companySchedule)) : getNewSchedule();
+    await saveSchedule();
+    emit("update:schedule", schedule.value);
   }
 });
 </script>

@@ -14,13 +14,14 @@ export interface NavigationLink {
 const pageContext = usePageContext();
 const sidebarStore = useSidebarStore();
 const { showSidebar } = storeToRefs(sidebarStore);
+const { companySlug } = pageContext.value.routeParams;
 const navigation: Ref<NavigationLink[]> = ref([
-  { href: "/kvsn/admin/categories", title: "sidebar.categories" },
-  { href: "/kvsn/admin/services", title: "sidebar.services" },
-  { href: "/kvsn/admin/bookings", title: "sidebar.bookings" },
-  { href: "/kvsn/admin/clients", title: "sidebar.clients" },
-  { href: "/kvsn/admin/providers", title: "sidebar.providers" },
-  { href: "/kvsn/admin/company", title: "sidebar.company" },
+  { href: `/${companySlug}/admin/categories`, title: "sidebar.categories" },
+  { href: `/${companySlug}/admin/services`, title: "sidebar.services" },
+  { href: `/${companySlug}/admin/bookings`, title: "sidebar.bookings" },
+  { href: `/${companySlug}/admin/clients`, title: "sidebar.clients" },
+  { href: `/${companySlug}/admin/providers`, title: "sidebar.providers" },
+  { href: `/${companySlug}/admin/company`, title: "sidebar.company" },
 ]);
 </script>
 <template>

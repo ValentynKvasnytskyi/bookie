@@ -11,7 +11,7 @@ function getBookingsFilters(): FilterParameter[] {
       schema: { type: "string" },
     },
     {
-      name: "services",
+      name: "service",
       in: "query",
       schema: { type: "string" },
     },

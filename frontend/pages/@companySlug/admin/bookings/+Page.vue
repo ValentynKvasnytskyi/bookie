@@ -13,6 +13,7 @@ import moment from "moment-timezone";
 import AdminYesNoBadge from "../../../../components/admin/AdminYesNoBadge.vue";
 import { CButton, CButtonGroup } from "@coreui/vue";
 import { QueryParams } from "../../../../services/HttpClient.ts";
+import Pagination from "../../../../components/Pagination.vue";
 interface Data {
   bookings: Booking[];
   totalItemsCount: number;
@@ -47,16 +48,6 @@ const columns = computed(() => [
   { field: "actions", label: t("table.title.actions") },
 ]);
 
-function getBookingTotalDuration(booking: BookingEntity): number {
-  let duration = 0;
-
-  booking.services.forEach((service) => {
-    duration += (service as ServiceEntity).duration;
-  });
-
-  return duration;
-}
-
 async function deleteItem(id: string) {
   const isDeleted = await apiService.delete(id);
 
@@ -69,6 +60,9 @@ async function fetchData(filters?: QueryParams) {
   const response = await apiService.getList(filters);
 
   bookings.value = response.data;
+}
+async function changePage(page: number) {
+  await fetchData({ page });
 }
 </script>
 <template>
@@ -85,14 +79,10 @@ async function fetchData(filters?: QueryParams) {
           {{ item.client.phoneNumber }}
         </template>
         <template #services="{ item }">
-          <div class="flex flex-col" v-for="(service, idx) in item.services" :key="service._id">
-            <span class="mb-2 pb-2" :class="{ 'border-bottom-1': idx !== item.services.length - 1 }">
-              {{ service.name }}
-            </span>
-          </div>
+          {{ item.service?.name || "" }}
         </template>
         <template #totalDuration="{ item }">
-          {{ getBookingTotalDuration(item as BookingEntity) }}
+          {{ item.service?.duration || 0 }}
         </template>
         <template #providerName="{ item }">{{ item.provider.name }}</template>
         <template #startDate="{ item }">
@@ -123,6 +113,7 @@ async function fetchData(filters?: QueryParams) {
           </CButtonGroup>
         </template>
       </Table>
+      <Pagination :totalItems="data.totalItemsCount" @changePage="changePage" />
     </template>
   </Card>
 </template>

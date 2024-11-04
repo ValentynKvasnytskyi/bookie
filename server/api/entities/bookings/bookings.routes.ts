@@ -1,7 +1,7 @@
 import express from "express";
 import BookingsController from "./bookings.controller.ts";
 
-const POPULATE_FIELDS = ["services", "provider", "client"];
+const POPULATE_FIELDS = ["service", "provider", "client"];
 
 const router = express.Router();
 const bookingsController = new BookingsController(POPULATE_FIELDS);

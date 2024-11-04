@@ -3,10 +3,12 @@ import { usePageContext } from "../../../renderer/usePageContext.ts";
 import { env } from "../../../config/env.ts";
 import { useTranslations } from "../../localization/useTranslations.ts";
 import Logo from "../../components/Logo.vue";
+import { useUrlHelper } from "../../composables/useUrlHelper.ts";
 
 const pageContext = usePageContext();
 const { t } = useTranslations(pageContext);
 const { DEFAULT_LOCALE, SUPPORTED_LOCALES } = env;
+const { getLocalizedUrl } = useUrlHelper();
 </script>
 
 <template>
@@ -48,13 +50,13 @@ const { DEFAULT_LOCALE, SUPPORTED_LOCALES } = env;
 
           <div class="inline-flex items-center ml-auto mr-auto space-x-6 lg:justify-end">
             <a
-              href="#"
+              :href="getLocalizedUrl('/login', pageContext.locale)"
               class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
             >
               {{ t("Sign in") }}
             </a>
             <a
-              href="#"
+              :href="getLocalizedUrl('/register', pageContext.locale)"
               class="text-base font-medium leading-6 text-gray-600 whitespace-no-wrap transition duration-150 ease-in-out hover:text-gray-900"
             >
               {{ t("Sign up") }}

@@ -6,9 +6,9 @@ import { BookingValidationErrors } from "../consts/errorMessages.ts";
 
 export default class BookingValidationService {
   /**
-   * Validates a booking against provider's schedule and existing bookings.
+   * Validates a booking against providerss's schedule and existing bookings.
    * @param {Booking} booking - The booking document.
-   * @param {Provider} provider - The provider document.
+   * @param {Provider} provider - The providerss document.
    * @param {Schedule} schedule - The schedule document.
    * @throws {Error} If any validation fails.
    */
@@ -21,9 +21,9 @@ export default class BookingValidationService {
   }
 
   /**
-   * Validates that the provider has a schedule.
-   * @param {Provider} provider - The provider document.
-   * @throws {Error} If the provider is not found or has no schedule.
+   * Validates that the providerss has a schedule.
+   * @param {Provider} provider - The providerss document.
+   * @throws {Error} If the providerss is not found or has no schedule.
    */
   private static async validateProviderSchedule(provider: Provider): Promise<void> {
     if (!provider) {
@@ -56,7 +56,7 @@ export default class BookingValidationService {
   }
 
   /**
-   * Validates the booking time against the provider's schedule.
+   * Validates the booking time against the providerss's schedule.
    * @param {Document & Booking} booking - The booking document.
    * @param {ScheduleDay} scheduleForDay - The schedule for the booking day.
    * @throws {Error} If the booking time is invalid.

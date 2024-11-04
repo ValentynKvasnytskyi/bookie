@@ -1,21 +1,23 @@
 import { PageContext } from "vike/types";
-import { ProvidersController } from "../../../../../server/api/entities/providers/providers.controller";
-import CompaniesController from "../../../../../server/api/entities/companies/companies.controller";
-import ServicesController from "../../../../../server/api/entities/services/services.controller";
+import EntityRepository from "../../../../services/repository/EntityRepository";
+import { Provider } from "../../../../../server/api/entities/providers/providers.types";
+import { Company } from "../../../../../server/api/entities/companies/companies.types";
+import { Service } from "../../../../../server/api/entities/services/services.types";
 
-const providersController = new ProvidersController();
-const companiesController = new CompaniesController();
-const servicesController = new ServicesController();
+const providersRepository = new EntityRepository<Provider>("Providers", ["services", "schedule"]);
+const companiesRepository = new EntityRepository<Company>("Companies", ["schedule"]);
+const servicesRepository = new EntityRepository<Service>("Services");
+
 export async function data(pageContext: PageContext) {
   const { id, companySlug } = pageContext.routeParams;
   let provider = null;
   if (id) {
-    provider = await providersController.getItemByIdSSR(id, ["services", "schedule"]);
+    provider = await providersRepository.getById(id);
   }
 
   const [services, companies] = await Promise.all([
-    await servicesController.getAllItemsSSR({ companySlug }),
-    await companiesController.getAllItemsSSR({ slug: companySlug }, ["schedule"]),
+    await servicesRepository.getAll({ companySlug }),
+    await companiesRepository.getAll({ slug: companySlug }),
   ]);
 
   const companySchedule = companies.data?.[0].schedule || null;

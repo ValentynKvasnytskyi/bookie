@@ -9,10 +9,11 @@ import { connectDB } from "./db/mongoose.ts";
 import { env } from "../config/env.ts";
 import { root } from "./root.ts";
 import apiRoutes from "./api/routes/index.ts";
-import { authenticateToken } from "./middleware/auth.middleware.ts";
 import { vikeMiddleware } from "./middleware/vike.middleware.ts";
 import { setupViteDevMiddleware } from "./middleware/vite.middleware.ts";
-// import authRoutes from "./auth/auth/auth.routes.ts";
+import authRoutes from "./auth/auth.routes.ts";
+import checkExistenceRoutes from "./api/routes/checkExistence.routes.ts";
+import { authenticateToken, ssrAuthenticateToken } from "./middleware/auth.middleware.ts";
 
 await startServer();
 
@@ -27,17 +28,18 @@ async function startServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
-  app.use(morganMiddleware);
+  // app.use(morganMiddleware);
   app.use(helmetMiddleware);
 
   // Auth routes
-  // app.use(authRoutes);
+  app.use(authRoutes);
 
   // Api routes
-  app.use("/api", apiRoutes);
+  app.use("/api", authenticateToken, apiRoutes);
+  app.use(checkExistenceRoutes);
 
   // Api docs
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+  app.use("/api-docs", authenticateToken, swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
   // Serve static
   if (env.IS_PRODUCTION) {
@@ -52,7 +54,7 @@ async function startServer() {
   }
 
   // Vike routes
-  app.get("*", vikeMiddleware);
+  app.get("*", ssrAuthenticateToken, vikeMiddleware);
 
   connectDB().then(() => {
     console.log("Connected to MongoDB");

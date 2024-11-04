@@ -6,7 +6,7 @@ export const BookingSwaggerSchema = {
         properties: {
           provider: {
             type: "string",
-            description: "ID of the provider",
+            description: "ID of the providerss",
             format: "objectid",
           },
           services: {
@@ -44,7 +44,7 @@ export const BookingSwaggerSchema = {
             description: "Slug of the company",
           },
         },
-        required: ["provider", "services", "client", "startDate", "endDate", "companySlug"],
+        required: ["provider", "service", "client", "startDate", "endDate", "companySlug"],
       },
     },
   },

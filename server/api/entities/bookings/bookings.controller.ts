@@ -4,6 +4,8 @@ import Bookings from "./bookings.model.ts";
 
 export default class BookingsController extends BaseController<Booking> {
   constructor(populateFields: string[] = []) {
-    super(Bookings, populateFields);
+    super(Bookings, populateFields, {
+      dateFields: ["startDate", "endDate"],
+    });
   }
 }

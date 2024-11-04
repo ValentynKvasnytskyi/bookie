@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { usePageContext } from "../../../renderer/usePageContext.ts";
-import { env } from "../../../config/env.ts";
-import { useUrlHelper } from "../../composables/useUrlHelper.ts";
 import { useSidebarStore } from "../../stores/useSidebarStore.ts";
+import LangSwitcher from "../LangSwitcher.vue";
+import { CButton } from "@coreui/vue";
+import { navigate } from "vike/client/router";
+import { useUrlHelper } from "../../composables/useUrlHelper.ts";
+import { usePageContext } from "../../../renderer/usePageContext.ts";
 
-const pageContext = usePageContext();
-const { SUPPORTED_LOCALES } = env;
-const { getLocalizedUrl } = useUrlHelper();
 const { toggleSidebar } = useSidebarStore();
+const { getLocalizedIndexUrl } = useUrlHelper();
+const pageContext = usePageContext();
+async function logout() {
+  await fetch("/auth/logout", {
+    method: "POST",
+  })
+    .then(async () => {
+      await navigate(getLocalizedIndexUrl(pageContext.value.locale));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
 </script>
 <template>
-  <header class="flex justify-between w-full bg-white shadow-sm">
+  <header class="flex w-full bg-white shadow-sm">
     <button
       id="burgerButton"
-      class="flex flex-col items-center justify-center w-10 h-10 space-y-1 focus:outline-none"
+      class="flex flex-col items-center justify-center w-10 h-10 space-y-1 focus:outline-none me-auto"
       @click="toggleSidebar"
     >
       <span class="block w-5 h-0.5 bg-slate-700 transition-transform duration-300 rounded"></span>
       <span class="block w-5 h-0.5 bg-slate-700 transition-opacity duration-300 rounded"></span>
       <span class="block w-5 h-0.5 bg-slate-700 transition-transform duration-300 rounded"></span>
     </button>
-    <div class="flex items-center gap-2 px-4 align-middle">
-      <a
-        v-for="lang in SUPPORTED_LOCALES"
-        :key="lang"
-        :href="getLocalizedUrl(pageContext.urlLogical, lang)"
-        class="text-indigo-600 font-semibold opa"
-        :class="{
-          'pointer-events-none': lang === pageContext.locale,
-          'opacity-50': lang === pageContext.locale,
-        }"
-      >
-        {{ lang.toUpperCase() }}
-      </a>
-    </div>
+    <LangSwitcher class="px-4" />
+    <CButton @click="logout">Logout</CButton>
   </header>
 </template>

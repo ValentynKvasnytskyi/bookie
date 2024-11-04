@@ -1,2 +1,9 @@
+@import '@coreui/coreui/dist/css/coreui.min.css';
 @import "../tailwind";
-@import "components/header";
+
+#index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}

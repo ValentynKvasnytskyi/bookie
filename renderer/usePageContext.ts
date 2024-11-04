@@ -8,11 +8,14 @@ import { inject } from "vue";
 import type { App, InjectionKey, Ref } from "vue";
 import type { PageContext } from "vike/types";
 
+type User = { id: string; companySlug: string };
+
 export interface ExtendedContext {
   locale: string;
   translations: Translations;
   urlLogical: string;
   query: Record<string, string>;
+  user: User | null;
 }
 
 const key: InjectionKey<Ref<PageContext>> = Symbol();

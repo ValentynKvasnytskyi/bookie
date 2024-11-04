@@ -30,6 +30,7 @@ async function save() {
   if (!company.value) {
     return;
   }
+
   const response = await apiService.update(company.value._id as string, company.value);
 
   if (!response) {
@@ -37,6 +38,10 @@ async function save() {
   }
 
   company.value = response;
+}
+async function updateSchedule(schedule: ScheduleEntity) {
+  (company.value as CompanyEntity).schedule = schedule;
+  await save();
 }
 </script>
 <template>
@@ -52,6 +57,7 @@ async function save() {
         :entitySchedule="company.schedule as ScheduleEntity"
         :showCompanyCheckbox="false"
         :editCompanySchedule="true"
+        @update:schedule="updateSchedule"
       />
 
       <CButton color="success" class="text-white ml-auto d-block" @click="save">

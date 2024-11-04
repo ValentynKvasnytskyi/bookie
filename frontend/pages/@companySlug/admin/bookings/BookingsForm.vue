@@ -6,7 +6,7 @@ import { useTranslations } from "../../../../localization/useTranslations";
 import { navigate } from "vike/client/router";
 import Card from "../../../../components/Card.vue";
 import AdminSavedToast from "../../../../components/admin/AdminSavedToast.vue";
-import { CButton, CFormCheck, CFormInput, CRow, CCol, CCardTitle } from "@coreui/vue";
+import { CButton, CFormCheck, CFormInput, CRow, CCol } from "@coreui/vue";
 import { ApiService } from "../../../../services/ApiService";
 import { BookingEntity } from "../../../../../server/api/entities/bookings/bookings.types";
 import { ClientEntity } from "../../../../../server/api/entities/clients/clients.types.ts";
@@ -38,7 +38,7 @@ const booking: Ref<BookingEntity> = ref(
   props.initialBooking || {
     _id: undefined,
     provider: null,
-    services: [],
+    service: null,
     client: null,
     startDate: "",
     endDate: "",
@@ -131,16 +131,21 @@ async function save() {
           />
         </CCol>
         <CCol sm="4">
-          <CFormInput :value="bookingDuration" :label="t('form.label.duration')" class="mb-4" disabled />
+          <CFormInput
+            :value="(booking.service as ServiceEntity).duration"
+            :label="t('form.label.duration')"
+            class="mb-4"
+            disabled
+          />
         </CCol>
       </CRow>
       <div class="border-b my-4"></div>
       <CRow>
-        <CCol sm="12" class="font-medium text-xl mb-2">{{ t("bookings.title.provider.info") }}</CCol>
+        <CCol sm="12" class="font-medium text-xl mb-2">{{ t("bookings.title.providers.info") }}</CCol>
         <CCol sm="4">
           <CFormInput
             :value="(booking.provider as ProviderEntity).name"
-            :label="t('form.label.provider.name')"
+            :label="t('form.label.providers.name')"
             class="mb-4"
             disabled
           />
@@ -148,7 +153,7 @@ async function save() {
         <CCol sm="4">
           <CFormInput
             :value="(booking.provider as ProviderEntity).phoneNumber"
-            :label="t('form.label.provider.phoneNumber')"
+            :label="t('form.label.providers.phoneNumber')"
             class="mb-4"
             disabled
           />
@@ -156,7 +161,7 @@ async function save() {
         <CCol sm="4">
           <CFormInput
             :value="(booking.provider as ProviderEntity).email"
-            :label="t('form.label.provider.email')"
+            :label="t('form.label.providers.email')"
             class="mb-4"
             disabled
           />

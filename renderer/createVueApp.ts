@@ -4,7 +4,6 @@ import { setPageContext } from "./usePageContext";
 import { setData } from "./useData";
 import type { PageContext } from "vike/types";
 import { objectAssign } from "./utils";
-import PrimeVue from "primevue/config";
 
 export { createVueApp };
 
@@ -20,17 +19,17 @@ function createVueApp(pageContext: PageContext) {
   const pinia = createPinia();
   app.use(pinia);
 
-  // попробовать сделать промежжуточное приложение где собираются все компоненты и из них вытягиваюься стили и складываються в джс или цсс для дальнейшего использования
-  app.use(PrimeVue, {
-    unstyled: true,
-    // theme: {
-    //   preset: Aura,
-    //   options: {
-    //     darkModeSelector: "",
-    //     cssLayer: false,
-    //   },
-    // },
-  });
+  // TODO: use prime vue after ssr styles rendering fix
+  // app.use(PrimeVue, {
+  //   // unstyled: true,
+  //   theme: {
+  //     preset: Aura,
+  //     options: {
+  //       darkModeSelector: "",
+  //       cssLayer: false,
+  //     },
+  //   },
+  // });
 
   setPageContext(app, pageContextRef);
   setData(app, dataRef);

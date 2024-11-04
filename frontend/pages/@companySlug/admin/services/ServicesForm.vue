@@ -6,7 +6,7 @@ import { useTranslations } from "../../../../localization/useTranslations";
 import { navigate } from "vike/client/router";
 import Card from "../../../../components/Card.vue";
 import AdminSavedToast from "../../../../components/admin/AdminSavedToast.vue";
-import { CButton, CFormCheck, CFormInput, CRow, CCol, CFormSelect } from "@coreui/vue";
+import { CButton, CFormCheck, CFormInput, CRow, CCol } from "@coreui/vue";
 import { ServiceEntity } from "../../../../../server/api/entities/services/services.types";
 import { ApiService } from "../../../../services/ApiService";
 import { CategoryEntity } from "../../../../../server/api/entities/categories/categories.types.ts";

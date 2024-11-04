@@ -4,6 +4,9 @@ export interface ListResponse<T> {
   data: T[];
   totalCount: number;
 }
+interface ExistenceObject {
+  exists: boolean;
+}
 
 export class ApiService<T> {
   private httpClient: HttpClient;
@@ -64,6 +67,17 @@ export class ApiService<T> {
     }
   }
 
+  async checkExistence(entity: string, filters: QueryParams): Promise<ExistenceObject | null> {
+    try {
+      const httpClient = new HttpClient("");
+      const url = this.getExistenceUrl(entity);
+
+      return await httpClient.request<ExistenceObject>(url, { queryParams: filters });
+    } catch (error) {
+      return null;
+    }
+  }
+
   private getByIdUrl(id: string | number): string {
     return `/${id}`;
   }
@@ -78,5 +92,9 @@ export class ApiService<T> {
 
   private getDeleteUrl(id: string | number): string {
     return `/${id}/delete`;
+  }
+
+  private getExistenceUrl(entity: string): string {
+    return `/${entity}-exists`;
   }
 }

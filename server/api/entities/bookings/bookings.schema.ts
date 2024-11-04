@@ -11,8 +11,8 @@ const bookingSchema = new Schema<Booking>(
       required: true,
       index: true,
     },
-    services: {
-      type: [Schema.Types.ObjectId],
+    service: {
+      type: Schema.Types.ObjectId,
       ref: "Services",
       required: true,
       index: true,

@@ -1,4 +1,4 @@
-import { Types, Model, Query, FilterQuery } from "mongoose";
+import { Types, Query, FilterQuery } from "mongoose";
 
 export interface PaginatedResult<T> {
   data: T[];
@@ -6,13 +6,13 @@ export interface PaginatedResult<T> {
 }
 
 export interface PaginationOptions {
-  pagination: boolean;
+  pagination: string | undefined | boolean;
   page: number;
   limit: number;
 }
 
 export interface QueryParams {
-  [key: string]: string | string[] | undefined;
+  [key: string]: string | string[] | boolean | undefined;
 }
 export default class ApiControllerUtils {
   /**
